@@ -1,0 +1,22 @@
+name: Build Docker Images
+
+on:
+  push:
+    branches:
+      - main
+      - docker-build
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out code
+
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: tails-server
+          registry: ghcr.io
+          dockerfile: docker/Dockerfile.tails-server
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
